@@ -25,3 +25,8 @@ hs_err_pid*
 
 # Backup files (for Emacs editor)
 *~
+
+*.idea/
+*.iml
+/out/
+

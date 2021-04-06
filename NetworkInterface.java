@@ -6,14 +6,21 @@
  * This simulates a "network interface card" simplistically.
  *************/
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
+import javax.swing.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+
+//Hashmap of packets, and their start time
+//If they come back as recieved, and their ID is the same, log the destination and the time in milliseconds / 2.
 
 public class NetworkInterface {
     private Network net;  // A reference to the whole network - so we can see where this interface belongs
     private int nsap;   // The ID for this NIC
     private ArrayList<Integer> outgoingLinks;   // A list of outgoing links
     private ArrayList<Integer> incomingLinks;   // A list of incoming links
+    
 
     private int capacity;                       // The limit to number of packets that can be waiting for processing on Queue
     private Queue<TransmitPair> transmissionQueue;    // A list of data that needs to be transmitted starting from this NIC
@@ -40,7 +47,7 @@ public class NetworkInterface {
         this.transmissionQueue = new ConcurrentLinkedQueue<TransmitPair>();
         this.receivedQueue = new ConcurrentLinkedQueue<ReceivePair>();
     }
-
+    
     /** Return the NSAP ID for this NIC **/
     public int getNSAP() { return nsap; }
 
@@ -85,12 +92,13 @@ public class NetworkInterface {
      * The router must grab off the queue and process
      **/
     public synchronized void receive(int originator, Object payload) {
-        if (payload == null) {
+    	if (payload == null) {
             // No transmission of NULL objects -- something must be transmitted.
             Debug.getInstance().println(0, "Received message with no data.  Must include at least ONE byte of information.  Sent to Node " + nsap);
             return;
         }
-        if (receivedQueue.size() < capacity) {
+
+    	if (receivedQueue.size() < capacity) {
             // There is room to add it
             receivedQueue.add(new ReceivePair(originator, payload));
         } else {

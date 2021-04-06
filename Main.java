@@ -1,5 +1,5 @@
 public class Main {
-    public static String NETWORK_FILE = "testGraph.gqu";
+    public static String NETWORK_FILE = "testGraph2.gqu";
     
     public static void main(String[] args) {
         String networkFile = NETWORK_FILE;
@@ -17,7 +17,7 @@ public class Main {
         }
 
         net.printNetwork(System.out);
-        net.createRouters(new FloodRouter.Generator());
+        net.createRouters(new DistanceVectorRouter.Generator());
         
         try {
             net.runNetwork(System.out, 10000, 100);
