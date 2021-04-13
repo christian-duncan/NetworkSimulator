@@ -7,6 +7,7 @@
 import java.io.PrintWriter;
 import java.io.PrintStream;
 import java.io.FileReader;
+import java.io.File;
 import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -185,7 +186,11 @@ public class Network {
      *                  - null if there is an error
      **/
     public void loadNetwork(String fileName) throws Exception {
-        BufferedReader in = new BufferedReader(new FileReader(fileName));
+        loadNetwork(new File(fileName));
+    }
+    
+    public void loadNetwork(File file) throws Exception {
+        BufferedReader in = new BufferedReader(new FileReader(file));
         String[] line = null;
         // First get the size of the network (nodes and edges)
         line = getNextLine(in);

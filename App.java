@@ -254,16 +254,17 @@ public class App extends JFrame {
                         chooser.setFileFilter(filter);
                     }
                     int returnVal = chooser.showOpenDialog(visPane);
-                    String networkFile = null;
+                    File networkFile = null;
                     if(returnVal == JFileChooser.APPROVE_OPTION) {
                         try {
                             net = new Network();
-                            networkFile = chooser.getSelectedFile().getName();
+                            networkFile = chooser.getSelectedFile();
                             net.loadNetwork(networkFile);
                             runButton.setEnabled(true);  // Enable the run button so network can be run!
                             pps.setEditable(true);       // Enable editing this value now that network has loaded.
                         } catch (Exception e) {
-                            JOptionPane.showMessageDialog(visPane, "Error loading network: " + networkFile + "\n", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(visPane, "Error loading network: " + networkFile.getName() + "\n", "Error", JOptionPane.ERROR_MESSAGE);
+                            debug.println(1, "Error loading network: " + e.getMessage());
                             net = null;  // Clear it back out.  So, it can be loaded again.
                         }
                     }

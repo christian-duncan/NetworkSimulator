@@ -26,7 +26,7 @@ public class NetworkInterface {
     };
 
     public class ReceivePair {
-        int originator;   // The link originator that this data came from (direct link not original source)
+        int originator;   // The link originator (as an NSAP ID) that this data came from (direct link not the original source of the data)
         Object data;      // The data to route
         public ReceivePair(int originator, Object data) { this.originator = originator; this.data = data; }
     }
